@@ -25,7 +25,6 @@ def get_genai_client():
     return genai.Client(api_key=api_key)
 
 client = get_genai_client()
-client = get_genai_client()
 
 # --- SIDEBAR: Design Controls & Presets ---
 st.sidebar.title("🛠️ Design Controls")
@@ -131,7 +130,7 @@ with col_right:
         if not uploaded_base:
             st.warning("Please upload a base space photo or sketch first.")
         else:
-           with st.spinner("Step 1/2: Gemini analyzing spatial perspective & material palette..."):
+            with st.spinner("Step 1/2: Gemini analyzing spatial perspective & material palette..."):
                 # Prepare moodboard images
                 ref_pil_images = [Image.open(f).convert("RGB") for f in uploaded_refs] if uploaded_refs else []
 
@@ -157,7 +156,7 @@ with col_right:
                         contents=gemini_inputs
                     )
                     expanded_prompt = gemini_resp.text.strip()
-                except Exception as model_err:
+                except Exception:
                     # Fallback to 1.5 Pro if 2.5 is unavailable
                     gemini_resp = client.models.generate_content(
                         model="gemini-1.5-pro",
