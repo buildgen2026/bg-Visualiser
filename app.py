@@ -17,9 +17,14 @@ st.set_page_config(
 # Initialize GenAI Client
 @st.cache_resource
 def get_genai_client():
-    # Supports Google AI Studio API key or Vertex AI credentials
-    return genai.Client()
+    # Retrieve API key from Streamlit secrets or environment variables
+    api_key = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        st.error("⚠️ GEMINI_API_KEY is missing. Please add it to your Streamlit App Secrets.")
+        st.stop()
+    return genai.Client(api_key=api_key)
 
+client = get_genai_client()
 client = get_genai_client()
 
 # --- SIDEBAR: Design Controls & Presets ---
